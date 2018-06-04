@@ -50,7 +50,7 @@ namespace BotApp2
                 // Use Activity.MembersAdded and Activity.MembersRemoved and Activity.Action for info
                 // Not available in all channels
 
-                if (message.MembersAdded.Count > 0 && message.MembersRemoved.Count > 0 )
+                if (message.MembersAdded.Count > 0 )
                 {
                     var connector = new ConnectorClient(new Uri(message.ServiceUrl));
                     Activity reply = message.CreateReply("Hello is it me you're looking for?");
