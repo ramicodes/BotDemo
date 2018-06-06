@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -36,7 +37,7 @@ namespace BotApp2
             return response;
         }
 
-        private Activity HandleSystemMessage(Activity message)
+        private async Task<Activity> HandleSystemMessage(Activity message)
         {
             string messageType = message.GetActivityType();
             if (messageType == ActivityTypes.DeleteUserData)
@@ -50,13 +51,14 @@ namespace BotApp2
                 // Use Activity.MembersAdded and Activity.MembersRemoved and Activity.Action for info
                 // Not available in all channels
 
-                if (message.MembersAdded.Count > 0 )
-                {
-                    var connector = new ConnectorClient(new Uri(message.ServiceUrl));
-                    Activity reply = message.CreateReply("Hello is it me you're looking for?");
-
-                    connector.Conversations.SendToConversationAsync((Activity)reply);
-
+                var reply = message.CreateReply();
+                string greetingMsg = "Hello, I'm your bot!";
+                greetingMsg += "\n Here is how i can help you";
+                reply.Text = greetingMsg;
+                if (message.MembersAdded.Any(o => o.Id == message.Recipient.Id))
+                {                   
+                    ConnectorClient connector = new ConnectorClient(new Uri(message.ServiceUrl));                                  
+                    await connector.Conversations.ReplyToActivityAsync(reply);
                 }
 
 

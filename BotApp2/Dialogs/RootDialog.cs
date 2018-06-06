@@ -12,31 +12,20 @@ namespace BotApp2.Dialogs
         public Task StartAsync(IDialogContext context)
         {
             // Root dialog initiates and waits for the next message from the user. 
-            // When a message arrives, call MessageReceivedAsync.
-
+            // When a message arrives, call MessageReceivedAsync.          
             context.Wait(MessageReceivedAsync);
-
             return Task.CompletedTask;
         }
 
         private async Task MessageReceivedAsync(IDialogContext context, IAwaitable<object> result)
         {
-            var activity = await result as Activity;
-       //     var connector = new ConnectorClient(new Uri(activity.ServiceUrl));
-         //   Activity reply = activity.CreateReply("Hello is it me you're looking for?");
-           // await connector.Conversations.ReplyToActivityAsync(reply);
+            var activity = await result as Activity;                    
 
-           // await connector.Conversations.SendToConversationAsync((Activity)reply);
-
-            // Return our reply to the user
-            //await context.PostAsync("Al Salam Alaykom.I am Bilal, the Abu Dhabi Islamic Facilities Finder Chatbot.I am here to help you explore the Islamic Facilities in Abu Dhabi Emirate.\n Enter \"help\" at any point in the conversation to get guidance.");
-
-             context.Wait(MessageReceivedAsync);
-
+            await context.PostAsync("Hi again, Here's how I can help you");
 
             var message = await result;
 
-        
+            context.Wait(MessageReceivedAsync);
         }
     }
 }
